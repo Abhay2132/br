@@ -1,64 +1,71 @@
 const puppeteer = require('puppeteer'),
     j = require("path").join,
-    fetch = require("node-fetch"),
-    { parse } = require("node-html-parser"),
-    dwnDir = j(__dirname, "..", "files"),
-    Downloader = require('nodejs-file-downloader')
+    fs = require("fs")
 
-async function screenShot(url) {
-    const browser = await puppeteer.launch();
-    log("Brower Started")
-    const page = await browser.newPage();
-    log("New Page Started")
-    await page.goto(url);
-    log("URL loaded !")
-    await page.screenshot({ path: j(__dirname, "screenShot.png") });
-    log("ScreenShot Saved !")
-    await browser.close();
-    console.log(`Page "${url}" ScreenShot Saved !`)
-}
-
-async function fetchURL(url) {
-    let page = await fetch(url);
-    let html = await page.text();
-    let root = parse(html);
-    let pics = root.querySelectorAll(".zaragoza > a > img")
-    let picsHrefs = pics.map((pic) => pic.getAttribute("src"))
-    log("Downloading", picsHrefs.length, "Pics !")
-    download(...picsHrefs)
-}
-async function savePDF(url) {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.goto(url, {
-        waitUntil: 'networkidle2',
+async function getResult(url) {
+    writer.clear();
+    const browser = await puppeteer.launch({
+        headless: false
     });
-    await page.pdf({ path: "src/files/file.pdf", format: 'a4' });
-    await browser.close();
+    const page = await browser.newPage();
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 0 });
+    let href = await page.evaluate(() => {
+        document.querySelector("#RollNo").value = "200211070003";
+        window.stop();
+        document.querySelector("input[value='GET RESULT']").click();
+        return window.location.href
+    })
+    // page.on("framenavigated", async (frame) => {
+    //     try{
+    //         process.stdout.write(".")
+    //         let txt = await frame.content();
+    //         // await fs.appendFile(j(__dirname, "..", "files", "result.htm"), txt, (err) => log(err))
+    //         writer.add (txt);
+    //     } catch (e) { return log(e)}
+    // })
+    page.on("domcontentloaded", async (event) => {
+        let result = await page.evaluate(()=>{
+            let tags = document.querySelectorAll("tbody > tr > td")
+            return tags[86].textContent;
+        })
+        log("DOM loaded !!!", result)
+        // writer.add(np.dom)
+    })
+
+    // page.on("framenavigated", async (frame) =>{
+    //     process.stdout.write(",")
+    //     let htm = await page.content();
+    //     writer.add(htm);
+    // })
 }
 
-var i = 0;
-async function download(...urls) {
-    let url = urls[i++]
-    // log(urls)
-    const downloader = new Downloader({
-        url: url,
-        directory: "src/downloads"
-    })
-    try {
-        await downloader.download();
-        // console.log('All done');
-    } catch (error) {
-        console.log('Download failed :', url, "\n", error)
+const writer = {
+    txt : new Array(),
+    i : 0,
+    live : false,
+    add : function(txt){
+        writer.txt.push(txt);
+        if(!writer.live) writer.append();
+        else process.stdout.write(" ")
+    },
+    path : j(__dirname, "..", "files", "index.htm"),
+    clear : function(){
+        fs.writeFile(writer.path, "", (err) => errLog(err));
+    },
+    append : function (){
+        writer.live = true;
+        writer.i += writer.txt.length < writer.i ? 1 : 0;
+        fs.appendFile(writer.path, writer.txt[writer.i], (err) =>{
+            if(err) return err;
+            if(writer.txt.length < writer.i) writer.append();
+            else writer.live = false;
+            process.stdout.write(".")
+        })
     }
-    if(i < urls.length) download(...urls);
-    else log("Dowloaded", i, "files !")
 }
 
 module.exports = {
-    screenShot: screenShot,
-    fetchURL: fetchURL,
-    savePDF: savePDF
+    getResult: getResult
 }
 
 // tagClass = "zaragoza"
