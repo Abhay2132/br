@@ -3,9 +3,9 @@ const puppeteer = require('puppeteer'),
     fs = require("fs")
 
 async function getResult(url) {
-    const browser = await puppeteer.launch({
-        headless: false
-    });
+    const browser = await puppeteer.launch({ 
+		args: ['--no-sandbox']
+	 });
     const page = await browser.newPage();
     await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 0 });
     let href = await page.evaluate(() => {
