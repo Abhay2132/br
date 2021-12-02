@@ -22,7 +22,7 @@ function getResult(rn = false) {
     })
 }
 
-function eval4rn(rn) {
+function eval4rn(rn) {  //evaluate Roll No. and submit
     return new Function(`
     document.querySelector("#RollNo").value = ${rn};
     window.stop();
@@ -54,11 +54,10 @@ function eval4result() {
         mp : markstags[33].textContent,
         mtht : markstags[34].textContent,
         mt : markstags[38].textContent,
-        gm : markstags[41].textContent,
         name : pdtags[3].textContent,
         rollno : pdtags[1].textContent,
         enrollno : pdtags[5].textContent,
-        result : pdtags[19].textContent,
+        result : pdtags[pdtags.length-1].textContent,
         tm : pdtags[pdtags.length-3].textContent
     }
     return result;

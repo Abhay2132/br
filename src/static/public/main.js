@@ -7,4 +7,5 @@ async function getResult () {
 	let response = await fetch("/result/"+rollNo),
 		data = await response.json()
 	log(data);
+	document.querySelector("#spnr").style.display = "none";
 }
