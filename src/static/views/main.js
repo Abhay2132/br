@@ -63,4 +63,4 @@ function showErr (err){
 	setTimeout (() => document.getElementById("err").style.display = "block" , 100);
 }
 
-showResult(data);
+//showResult(data);
