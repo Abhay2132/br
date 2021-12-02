@@ -7,8 +7,8 @@ function getResult(rn = false) {
     return new Promise(async (resolve) => {
         if (!rn) return resolve({ error: "RollNo. is not provided !" })
         const browser = await puppeteer.launch({
-            // args: ['--no-sandbox']
-            headless: false
+            args: ['--no-sandbox']
+            // headless: false
         });
         const page = await browser.newPage();
         let url = "http://results.indiaresults.com/ut/sdsuv-university/query.aspx?id=1900269978"
@@ -17,6 +17,7 @@ function getResult(rn = false) {
         page.on("domcontentloaded", async (event) => {
             let result = await page.evaluate(eval4result())
             resolve(result);
+            browser.close();
         })
     })
 }
@@ -32,7 +33,8 @@ function eval4rn(rn) {
 
 function eval4result() {
     return new Function(`
-    let markstags = document.querySelectorAll("tr > td > table > tbody > tr > td > table > tbody > tr > td.border1"), pdtags = document.querySelectorAll("div#midd_part_UN > table > tbody > tr > td > table > tbody > tr > td.border1"); 
+    let markstags = document.querySelectorAll("tr > td > table > tbody > tr > td > table > tbody > tr > td.border1"),
+        pdtags = document.querySelectorAll("div#midd_part_UN > table > tbody > tr > td > table > tbody > tr > td.border1"); 
     let result = {
         p1 : markstags[20].textContent,
         p2 : markstags[21].textContent,
@@ -50,14 +52,14 @@ function eval4result() {
         m2 : markstags[31].textContent,
         m3 : markstags[32].textContent,
         mp : markstags[33].textContent,
-        mtht : markstags[43].textContent,
+        mtht : markstags[34].textContent,
         mt : markstags[38].textContent,
         gm : markstags[41].textContent,
         name : pdtags[3].textContent,
         rollno : pdtags[1].textContent,
         enrollno : pdtags[5].textContent,
         result : pdtags[19].textContent,
-        tm : pdtags[17].textContent
+        tm : pdtags[pdtags.length-3].textContent
     }
     return result;
 `);
