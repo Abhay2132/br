@@ -7,8 +7,8 @@ function getResult(rn = false) {
     return new Promise(async (resolve) => {
         if (!rn) return resolve({ error: "RollNo. is not provided !" })
         const browser = await puppeteer.launch({
-            args: ['--no-sandbox']
-            // headless: false
+            // args: ['--no-sandbox']
+            headless: false
         });
         const page = await browser.newPage();
         let url = "http://results.indiaresults.com/ut/sdsuv-university/query.aspx?id=1900269978"
@@ -17,7 +17,7 @@ function getResult(rn = false) {
         page.on("domcontentloaded", async (event) => {
             let result = await page.evaluate(eval4result())
             resolve(result);
-            browser.close();
+            // browser.close();
         })
     })
 }
@@ -33,6 +33,8 @@ function eval4rn(rn) {  //evaluate Roll No. and submit
 
 function eval4result() {
     return new Function(`
+    let tag = document.querySelectorAll("#midd_part_UN b");
+    if( tag.length ) return { error : tag[0].textContent};
     let markstags = document.querySelectorAll("tr > td > table > tbody > tr > td > table > tbody > tr > td.border1"),
         pdtags = document.querySelectorAll("div#midd_part_UN > table > tbody > tr > td > table > tbody > tr > td.border1"); 
     let result = {
