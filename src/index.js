@@ -12,12 +12,8 @@ app.set('view engine', 'handlebars');
 app.set('views', j(__dirname, "static", "views"));
 
 app.use(exp.static(j(__dirname, "static", "public")))
-app.locals.port = process.env.NODE_ENV || 5000;
+app.locals.port = process.env.PORT || 5000;
 
 rh(app)
-
-// app.get("/", (req, res, next) =>{
-//     res.render("index")
-// })
 
 app.listen(app.locals.port, ()=> log("Server Started at port :", app.locals.port))
