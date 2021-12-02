@@ -3,7 +3,6 @@
 
 <head>
     <title> B.Sc. I Year Result </title>
-    <script src="http://localhost:9000/eruda.js" onload="eruda.init();"></script>
     <link rel="stylesheet" href="styles.css" />
 </head>
 
@@ -16,13 +15,53 @@
             <input id="rn" type="text" minlength="12" maxlength="12" class="m-L-xl d-ib bdr rc-s out-no p-7p" required>
             <button class="dnw d-b pos-rel left-50pg m-L-_40p w-80p m-T p-7p rc-s bdr "> Search </button>
         </form>
-
-        <div class="m p midl">
-            <div id="spnr" class=" d-no h-50p w-50p rc-50pg bdr-10p_eee bdr-T-10p_0079FF"></div>
+        <div id="spinner" class="midl" style="display:none;">
+			<div id="spnr" class=" h-50p w-50p rc-50pg bdr-10p_eee bdr-T-10p_0079FF"></div>
+		</div>
+		
+        <div id="result" class="d-no" style="opacity:0">
+			<div class="details bg-fff p t-c">
+				<table border="1px" class="t-c rc-s d-ib">
+					<th colspan="2"> Personal Details </th>
+					<tr><td>Name </td><td> Abhay Bisht </td></tr>
+					<tr><td>Roll No. </td><td> 200211070003 </td></tr>
+					<tr><td>Result </td><td class="dnw"> PASS </td></tr>
+					<tr><td>Marks </td><td> 378 / 600 </td></tr>
+				</table>
+			</div>
+			<div class="marks bg-fff p t-c">
+				<table border="1px">
+					<th colspan="6" class="dnw rc-s">MARKS</th>
+					<tr><th>Sub</th><th>I</th><th>II</th><th>III</th><th>Prac.</th><th>Total</th></tr>
+					<tr><td> P </td><td>50</td><td>50</td><td>50</td><td>50</td><td>50</td></tr>
+					<tr><td>C </td><td>50</td><td>50</td><td>50</td><td>50</td><td>50</td></tr>
+					<tr><td>M </td><td>50</td><td>50</td><td>50</td><td>50</td><td>50</td></tr>
+				</table>
+			</div>
         </div>
-    </div>
+        <div>
+        <div id="err" class="d-no bg-FF8178 t-c p m bdr rc-s">
+        	Roll No. does not exists...
+       </div>
+        </div>
 </body>
+<!--
 <script>async function runAcss() { let acssBody; localStorage.getItem("acss") ? acssBody = localStorage.getItem("acss") : (acssBody = await fetch("https://cdn2132.herokuapp.com/acss.min.js"), acssBody = await acssBody.text(), localStorage.setItem("acss", acssBody), console.log("fetched acss from cdn -> localStorage")), acssBody && eval(acssBody) } runAcss();</script>
+-->
+<script src="http://localhost:9000/loadacss.js"></script>
 <script src="main.js"></script>
-
+<style>
+	td {
+		padding: 5px 10px;
+	}
+	table th:first-child {
+		border-radius : 5px;
+		padding : 10px
+	}
+	table {
+		display : inline-block;
+		border-radius : 5px;
+		text-align : center;
+	}
+</style>
 </html>
