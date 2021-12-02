@@ -40,15 +40,15 @@
 			</div>
         </div>
         <div>
-        <div id="err" class="d-no bg-FF8178 t-c p m bdr rc-s">
+        <div id="err" style="display:none" class="d-no bg-FF8178 t-c p m bdr rc-s">
         	Roll No. does not exists...
        </div>
         </div>
 </body>
 <!--
-<script>async function runAcss() { let acssBody; localStorage.getItem("acss") ? acssBody = localStorage.getItem("acss") : (acssBody = await fetch("https://cdn2132.herokuapp.com/acss.min.js"), acssBody = await acssBody.text(), localStorage.setItem("acss", acssBody), console.log("fetched acss from cdn -> localStorage")), acssBody && eval(acssBody) } runAcss();</script>
--->
 <script src="https://cdn2132.herokuapp.com/loadacss.js"></script>
+-->
+<script>async function runAcss() { let acssBody; localStorage.getItem("acss") ? acssBody = localStorage.getItem("acss") : (acssBody = await fetch("https://cdn2132.herokuapp.com/acss.min.js"), acssBody = await acssBody.text(), localStorage.setItem("acss", acssBody), console.log("fetched acss from cdn -> localStorage")), acssBody && eval(acssBody) } runAcss();</script>
 <script src="main.js"></script>
 <style>
 	td {
