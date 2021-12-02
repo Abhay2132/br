@@ -12,6 +12,7 @@ module.exports = function (app) {
     })
 
     app.get("/result/:rn", async (req, res, next) => {
+        if(req.params.rn.length != 12) return res.json({error : "Invalid Roll no.  (length should be 12 digits) !"})
         let result = await getResult(req.params.rn) || {}
         res.json(result)
     })
