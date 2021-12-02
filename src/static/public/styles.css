@@ -1,0 +1,8 @@
+@keyframes rot {
+	from { transform : rotate(0deg);}
+	to { transform : rotate(360deg);}
+}
+
+#spnr {
+	animation : rot 1s linear 0s infinite normal;
+}

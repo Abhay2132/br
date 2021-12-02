@@ -1,9 +1,23 @@
-const { getResult} = require("./mods/webScrappers")
+const exp = require("express"),
+    app = exp(),
+    rh = require("./mods/routeHander"),
+    hbs = require("express-handlebars")
 
 global.log = console.log;
 global.j = require("path").join;
 global.errLog = function (err){ if(err) log(err) }
 
-let url = "http://results.indiaresults.com/ut/sdsuv-university/query.aspx?id=1900269978"
+app.engine('handlebars', hbs.engine());
+app.set('view engine', 'handlebars');
+app.set('views', j(__dirname, "static", "views"));
 
-getResult(url);
+app.use(exp.static(j(__dirname, "static", "public")))
+app.locals.port = process.env.NODE_ENV || 5000;
+
+rh(app)
+
+// app.get("/", (req, res, next) =>{
+//     res.render("index")
+// })
+
+app.listen(app.locals.port, ()=> log("Server Started at port :", app.locals.port))
