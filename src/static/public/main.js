@@ -25,6 +25,7 @@ function showResult (d) {
 					<th colspan="2"> Personal Details </th>
 					<tr><td>Name </td><td> ${d.name.replace(" ", "")} </td></tr>
 					<tr><td>Roll No. </td><td>${parseInt(d.rollno)}</td></tr>
+					<tr><td>Subject </td><td>${d.sub}</td></tr>
 					<tr><td>Result </td><td class="dnw"> ${d.result} </td></tr>
 					<tr><td>Marks </td><td> ${d.tm} </td></tr>
 				</table>
@@ -33,9 +34,9 @@ function showResult (d) {
 				<table border="1px">
 					<th colspan="6" class="dnw rc-s">MARKS</th>
 					<tr><th>Sub</th><th>I</th><th>II</th><th>III</th><th>Prac.</th><th>Total</th></tr>
-					<tr><td> P </td><td>${d.p1}</td><td>${d.p2}</td><td>${d.p3}</td><td>${d.pp}</td><td>${d.pt}</td></tr>
-					<tr><td>C </td><td>${d.c1}</td><td>${d.c2}</td><td>${d.c3}</td><td>${d.cp}</td><td>${d.ct}</td></tr>
-					<tr><td>M </td><td>${d.m1}</td><td>${d.m2}</td><td>${d.m3}</td><td>${d.mp}</td><td>${d.mt}</td></tr>
+					<tr><td>${d.sub[0]}</td><td>${d[d.sub[0]][0]}</td><td>${d[d.sub[0]][1]}</td><td>${d[d.sub[0]][2]}</td><td>${d[d.sub[0]][3]}</td><td>${d[d.sub[0]][4]}</td></tr>
+					<tr><td>${d.sub[1]}</td><td>${d[d.sub[1]][0]}</td><td>${d[d.sub[1]][1]}</td><td>${d[d.sub[1]][2]}</td><td>${d[d.sub[1]][3]}</td><td>${d[d.sub[1]][4]}</td></tr>
+					<tr><td>${d.sub[2]}</td><td>${d[d.sub[2]][0]}</td><td>${d[d.sub[2]][1]}</td><td>${d[d.sub[2]][2]}</td><td>${d[d.sub[2]][3]}</td><td>${d[d.sub[2]][4]}</td></tr>
 				</table>
 			</div>
         </div>
