@@ -2,6 +2,7 @@ const log = (...a) => console.log(...a);
 
 async function getResult () {
 	document.querySelector("#spinner").style.display = "block";
+	document.querySelector("#err").style.display = "block";
 	document.querySelector("#result").style.display = "none";
 	log("Getting result");
 	let rollNo = document.querySelector("input#rn").value;
