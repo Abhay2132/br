@@ -7,7 +7,8 @@ async function getResult () {
 	let rollNo = document.querySelector("input#rn").value;
 	let response = await fetch("/result/"+rollNo),
 		data = await response.json()
-	if(data.error) return showErr ( data.error );
+	log(data, data.error);
+	if( data.error ) return showErr( data.error )
 	return showResult (data)
 }
 
@@ -43,7 +44,7 @@ function showResult (d) {
 }
 
 function showErr (err){
-	if( ! d) return console.log("Error data not given");
+	if( ! err) return console.log("Error data not given");
 	document.getElementById("err").innerHTML = err;
 	document.getElementById("spinner").style.display = "none";
 	document.getElementById("result").style.display = "none";

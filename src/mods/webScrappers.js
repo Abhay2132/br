@@ -10,7 +10,7 @@ function getResult(rn = false) {
             args: ['--no-sandbox']
             // headless: false
         });
-        const page = await browser.newPage();
+        const page = (await browser.pages())[0]
         let url = "http://results.indiaresults.com/ut/sdsuv-university/query.aspx?id=1900269978"
         await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 0 });
         let href = await page.evaluate(eval4rn(rn))
