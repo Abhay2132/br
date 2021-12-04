@@ -19,6 +19,7 @@ function showResult (d) {
 	document.getElementById("spinner").style.display = "none";
 	let reslt = document.getElementById("result")
 	reslt.style.display = "block"
+	reslt.style.opacity = "0"
 	reslt.style.transition = "0.5s"
 	reslt.innerHTML = `
 			<div class="details bg-fff p t-c">
