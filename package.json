@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node .",
-    "test": "clear && nodemon "
+    "test": "clear ; cd src; chmod +x start.sh && ./start.sh "
   },
   "keywords": [],
   "author": "",
