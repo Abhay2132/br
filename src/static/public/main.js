@@ -71,7 +71,7 @@ window._renderNames = async function ( name ) {
 	if ( names.length < 1 || names.error ) return showErr("Error : no student found of named '"+ name +"'")
 	let index=1;
 	let namesV = document.getElementById("names");
-	namesV.innerHTML = "";
+	namesV.innerHTML = "<div class=\"m t-c f-12p \"> Note : Click on names to view their Roll No.<div>";
 	for ( let naam of names ) namesV.appendChild(infoGnratr(naam, index++))
 	vM("names")
 }
