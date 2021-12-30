@@ -2,7 +2,7 @@ const exp = require("express"),
     app = exp(),
     rh = require("./mods/routeHander"),
     hbs = require("express-handlebars"),
-    cors = require('cors')
+    cors = require("cors")
 
 global.log = console.log;
 global.j = require("path").join;
