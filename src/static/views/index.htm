@@ -12,41 +12,45 @@
     <div class="mbd opct-1 pc(w-500p,left-50pg,pos-rel,m-L-_250p)">
 
         <h1 class="p t-c m rc dnw f-xl"> B.Sc I YEAR Result <span class="d-ib m-L-s f">by Abhay</span> </h1>
-        <form class="vp p-l bdr rc m bg-eee t-c" onsubmit=" getResult(); return false;">
-            <label for="rn"> Roll No. </label>
-            <input value="200211070054" id="rn" type="text" minlength="12" maxlength="12" class="m-L-xl d-ib bdr rc-s out-no p-7p" required>
-            <button onclick="pressed(this, true)" class="dnw out-no d-b pos-rel left-50pg m-L-_40p w-80p m-T p-7p rc-s bdr "> Search </button>
+        <form class="vp p-l bdr rc m bg-eee t-c" onsubmit="return false;">
+            <label for="rn"> Student : </label>
+            <input placeholder ="Name or Roll No." id="rn" type="text" class="m-L-xl d-ib bdr rc-s out-no p-7p" required>
+            <button onclick="pressed(this, true); getResult(); " class="dnw out-no d-b pos-rel left-50pg m-L-_40p w-80p m-T p-7p rc-s bdr "> Search </button>
         </form>
+        
         <div id="spinner" class="t-c" style="display:none">
 			<div id="spnr" class=" h-50p w-50p rc-50pg d-ib bdr-10p_eee bdr-T-10p_0079FF"></div>
 		</div>
 		
         <div id="result" class="d-no" style="opacity:0"></div>
 		
-        <div id="err" style="display:none" class="fw-700 d-no bg-FF8178 t-c p m bdr rc-s">
+        <div id="err" style="display:none" class="fw-300 d-no bg-A00100 clr-fff t-c p m bdr rc-s">
         	Roll No. does not exists...
        </div>
+       
+<div id="names" class="d-no p-s bg-eee m rc-s">
+	<div class=" m-s naam rc-s d-grd gtc-40px_auto_70px bdr ovrflw-hdn chd-section(bdr-R)">
+		<section class="midl"> 1. </section>
+		<div class="name ovrflw-hdn pos-rel chd(vc,pos-abs,p-L,bg-eee,w-100pg,bb,h-100pg) hbr(chd-div(top-0))">
+			<span> Abhay </span>
+			<div class="top-100pg st"> 200211070003 </div>
+		</div>
+		<div class="midl p-5px_20px bb bg-3d7 open hbr(bnw) usr-no"> Open </div>
+	</div>
+</div>
+       
         </div>
 </body>
-<script>async function runAcss() { let acssBody; localStorage.getItem("acss") ? acssBody = localStorage.getItem("acss") : (acssBody = await fetch("https://cdn2132.herokuapp.com/acss.min.js"), acssBody = await acssBody.text(), localStorage.setItem("acss", acssBody), console.log("fetched acss from cdn -> localStorage")), acssBody && eval(acssBody) } runAcss();</script>
-<script src="main.js"></script>
-<script src="anime.js"></script>
-<style>
-	td {
-		padding: 5px 10px;
-	}
-	table th:first-child {
-		border-radius : 5px;
-		padding : 10px
-	}
-	table {
-		display : inline-block;
-		border-radius : 5px;
-		text-align : center;
-	}
-	
-	button {
-		box-shadow : 0px 4px 1px #666;
-	}
-</style>
+
+<script src="../public/loadFiles.js"></script>
+<script>
+	let lf = new _loadFiles ();
+	lf.files = [
+		"../public/styles.css",
+		"../public/main.js",
+		"../public/anime.js",
+		"https://cdn2132.herokuapp.com/acss.min.js",
+	]
+	lf.init()
+</script>
 </html>
