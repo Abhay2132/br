@@ -3,11 +3,11 @@ const puppeteer = require('puppeteer'),
     j = require("path").join,
     fs = require("fs"),
     mode = process.env.NODE_ENV === "production" ? {args: ['--no-sandbox']} : {headless: false}
-
+console.log(process.env.NODE_ENV, mode)
 function getResult(rn = false) {
     return new Promise(async (resolve) => {
         if (!rn) return resolve({ error: "RollNo. is not provided !" })
-        const browser = await puppeteer.launch(mode);
+        const browser = await puppeteer.launch(mode, console.log(mode));
         log("Browser Started !")//, browser)
         const page = (await browser.pages())[0]
         let url = "http://results.indiaresults.com/ut/sdsuv-university/query.aspx?id=1900269978"

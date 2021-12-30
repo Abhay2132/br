@@ -7,7 +7,7 @@ window.getResult = async function (value = false) {
 	vM("spinner")
 	if ( Number.isNaN(rollNo)) return _renderNames( value);
 	if ( (rollNo + "").length !== 12) return showErr("Roll no. should be 12 digit number !");
-	let response = await fetch("http://bscresult.herokuapp.com/result/"+value),
+	let response = await fetch("/result/"+value),
 		data = await response.json()
 	if( data.error ) return showErr( data.error )
 	return showResult (data,vM("result"))
@@ -67,7 +67,7 @@ const infoGnratr = ( naam , index) => {
 
 window._renderNames = async function ( name ) {
 	if ( ! name ) return console.log("Error : name not defined !", name);
-	let names = await _get("http://bscresult.herokuapp.com/names/"+name, true);
+	let names = await _get("/names/"+name, true);
 	if ( names.length < 1 || names.error ) return showErr("Error : no student found of named '"+ name +"'")
 	let index=1;
 	let namesV = document.getElementById("names");
