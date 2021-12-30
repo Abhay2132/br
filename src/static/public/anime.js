@@ -1,4 +1,4 @@
-function pop ( tag , tt = 200){
+window.pop = function ( tag , tt = 200){
     var init_trans = tag.style.transition;
     tag.style.transition = "0.1s";
     tag.style.transform = "scale(0.9)";
@@ -8,7 +8,7 @@ function pop ( tag , tt = 200){
     }, tt)
 }
 
-function pressed ( tag , bs = false){
+window.pressed = function ( tag , bs = false){
     tag.style.transition = "0.2s";
     tag.style.transform = "translateY(3px)";
     if(bs) tag.style.boxShadow = "0px 1px 1px #666"

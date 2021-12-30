@@ -1,22 +1,20 @@
 const log = (...a) => console.log(...a);
 
-async function getResult () {
-	document.querySelector("#spinner").style.display = "block";
-	document.querySelector("#err").style.display = "none";
-	document.querySelector("#result").style.display = "none";
-	log("Getting result");
-	let rollNo = document.querySelector("input#rn").value;
-	let response = await fetch("/result/"+rollNo),
+window.getResult = async function (value = false) {
+	value = value || document.querySelector("input#rn").value;
+	if ( ! value.trim().length ) return;
+	let rollNo = parseInt(value);
+	vM("spinner")
+	if ( Number.isNaN(rollNo)) return _renderNames( value);
+	if ( (rollNo + "").length !== 12) return showErr("Roll no. should be 12 digit number !");
+	let response = await fetch("http://bscresult.herokuapp.com/result/"+value),
 		data = await response.json()
-	log(data, data.error);
 	if( data.error ) return showErr( data.error )
-	return showResult (data)
+	return showResult (data,vM("result"))
 }
 
 function showResult (d) {
 	if( ! d) return console.log("Result data not given");
-	document.getElementById("err").style.display = "none";
-	document.getElementById("spinner").style.display = "none";
 	let reslt = document.getElementById("result")
 	reslt.style.display = "block"
 	reslt.style.opacity = "0"
@@ -49,7 +47,64 @@ function showResult (d) {
 function showErr (err){
 	if( ! err) return console.log("Error data not given");
 	document.getElementById("err").innerHTML = err;
-	document.getElementById("spinner").style.display = "none";
-	document.getElementById("result").style.display = "none";
-	setTimeout (() => document.getElementById("err").style.display = "block" , 100);
+	vM("err");
+}
+
+const infoGnratr = ( naam , index) => {
+	let nameView = _nameView.cloneNode(true);
+	let [sn, info, butt] = nameView.children
+	sn.textContent = index++ +".";
+	let [ nmv, rnv ] = info.children;
+	let [ rn, nm ] = naam;
+	nmv.textContent = nm;
+	rnv.textContent = rn;
+	butt.addEventListener ( "click", function (e) {
+		document.querySelector("input#rn").value = rn
+		getResult(rn)
+	})
+	return nameView;
+}
+
+window._renderNames = async function ( name ) {
+	if ( ! name ) return console.log("Error : name not defined !", name);
+	let names = await _get("http://bscresult.herokuapp.com/names/"+name, true);
+	if ( names.length < 1 || names.error ) return showErr("Error : no student found of named '"+ name +"'")
+	let index=1;
+	let namesV = document.getElementById("names");
+	namesV.innerHTML = "";
+	for ( let naam of names ) namesV.appendChild(infoGnratr(naam, index++))
+	vM("names")
+}
+
+async function brInit () {
+	while (!["complete", "interactive"].includes(document.readyState)) await (new Promise(res => setTimeout(res, 50)));
+	window._nameView = document.querySelector(".naam").cloneNode(true);
+}
+
+brInit ();
+
+window.vM=function (viewid) {
+	let ids = ["names","err","result","spinner"]
+	if ( ! ids.includes(viewid)) return;
+	ids.forEach( id => {
+		let view = document.getElementById(id);view.style.display = "none"
+	})
+	let view = document.getElementById(viewid);
+	view.style.display = "block"
+	
+}
+
+function _get ( url, pj = false) {
+	return new Promise( res => {
+		let xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function () {
+			if ( this.readyState == 4 ){
+				if ( this.status >= 400 ) return res({ error : this.responseText })
+				if (this.status >= 200 ) return res( pj ? JSON.parse(this.responseText) : this.responseText );
+				else res (false)
+			}
+		}
+		xhr.open("GET", url);
+		xhr.send();
+	})
 }
