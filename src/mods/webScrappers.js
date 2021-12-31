@@ -3,7 +3,7 @@ const puppeteer = require('puppeteer'),
     j = require("path").join,
     fs = require("fs"),
     mode = process.env.NODE_ENV === "production" ? {args: ['--no-sandbox']} : {headless: false}
-console.log(process.env.NODE_ENV, mode)
+    
 function getResult(rn = false) {
     return new Promise(async (resolve) => {
         if (!rn) return resolve({ error: "RollNo. is not provided !" })
@@ -17,9 +17,9 @@ function getResult(rn = false) {
         page.on("domcontentloaded", async (event) => {
             log("Calculating Result !")
             let result = await page.evaluate(eval4result())
-            log("Result : ", result)
+            log("Result : " + result.result)
             resolve(result);
-            browser.close();
+            browser.close(log("getResult  : Browser Closed"));
         })
     })
 }
@@ -33,13 +33,13 @@ function getNames (name = false){
         let url = "http://results.indiaresults.com/ut/sdsuv-university/query.aspx?id=1900269978"
         await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 0 });
         await page.evaluate(eval4names(name))
-        log("Roll No. Entered")
+        log("Name Entered")
         page.on("domcontentloaded", async (event) => {
-            log("Calculating Result !")
+            log("fetching Names !")
             let names = await page.evaluate(eval4getnames())
             log("Names : ", names)
             resolve(names);
-            browser.close();
+            browser.close(log("getNames : Browser Closed"));
         })
     })
 }
