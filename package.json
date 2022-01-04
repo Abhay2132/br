@@ -5,7 +5,7 @@
   "main": "src/cluster.js",
   "scripts": {
     "start": "node .",
-    "test": "clear ; cd src; chmod +x start.sh && ./start.sh "
+    "dev": "nodemon src/dev"
   },
   "keywords": [],
   "author": "",

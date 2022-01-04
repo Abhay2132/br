@@ -1,7 +1,7 @@
 module.exports = () => {
 const exp = require("express"),
     app = exp(),
-    rh = require("./mods/routeHander"),
+    rh = require("./routeHander"),
     hbs = require("express-handlebars"),
     cors = require("cors")
 
