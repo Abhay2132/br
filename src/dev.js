@@ -15,6 +15,7 @@ async function start(url, q) {
     await browser.close()
 
     for (let i = 1; i <= epn; i++) {
+        log("Downloading ep%i", i)
         await downloadEp(j(url, "ep" + i), q, an)
     }
     return
@@ -63,7 +64,8 @@ const downloadEp = (url, q, an) => new Promise(async res => {
     const browser = await pupp.launch(mode)
     var page = await browser.newPage();
 
-    await page.goto(url, { waitUntil: "domcontentloaded", timeout: 0 })
+    await page.goto(url, { waitUntil: ["domcontentloaded", "load"], timeout: 0 })
+    await page.waitForSelector("i.dlbutton.glyphicon.glyphicon-download-alt", {timeout: 5000})
     await page.click("i.dlbutton.glyphicon.glyphicon-download-alt")
 
     while (true) {
