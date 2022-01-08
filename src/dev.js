@@ -75,7 +75,7 @@ const downloadEp = (url, q, an) => new Promise(async res => {
     } // to make sure page is opened !
 
     let newPage = await (await browser.pages())[2]
-    return res(browser.close())
+    if (process.argv[2] == "--skip") return res(browser.close())
     console.log(newPage.url())
     newPage.waitForNavigation({ waitUntil: "domcontentloaded", timeout: 0 })
     await newPage.waitForSelector("div.dowload > a")
