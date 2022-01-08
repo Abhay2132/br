@@ -1,57 +1,75 @@
-const pupp = require("puppeteer");
+const pupp = require("puppeteer"),
+    mode = { args: ["--no-sandbox"], headless: process.env.NODE_ENV === "production", defaultViewport: null},
+    log = (...a) => console.log(...a),
+    j = require("path").join
 
-console.clear();
-
-async function dev() {
-    const browser = await pupp.launch({
-        args: ["--no-sandbox"],
-        headless: false,
-        defaultViewport: null
-    })
+async function start(url, q) {
+    const browser = await pupp.launch(mode)
     var page = await browser.newPage();
-    let url = "https://animixplay.to/v1/mob-psycho-100";
 
     await page.goto(url, { waitUntil: "domcontentloaded", timeout: 0 })
-    await page.click("i.dlbutton.glyphicon.glyphicon-download-alt")
+    await page.waitForSelector("span.animetitle")
+    let an = (await page.$eval("span.animetitle", (tag) => tag.textContent))
+    await page.waitForSelector("#epslistplace > button")
+    let epn = await page.$$eval("#epslistplace > button", btns => btns.length)
 
-    while (true) {
-        let npages = (await browser.pages()).length;
-        if (npages === 3) break;
-        await (new Promise(res => setTimeout(res, 400)))
-    } // to make sure page is opened !
+    // await page.evaluateHandle(() => {
+    //     let tags = document.querySelectorAll("#epslistplace > button")
+    //     tags[3].click();
+    // })
+    // return ;
 
-    let newPage = await (await browser.pages())[2]
-    console.log(newPage.url())
-    await newPage.waitForSelector("div.dowload > a")
+    for (let i = 1; i <= epn; i++) {
+        // await page.close();
+        // page = await browser.newPage();
+        await page.goto(j(url, "ep" + i), { waitUntil: "domcontentloaded", timeout: 0 })
+        await page.click("i.dlbutton.glyphicon.glyphicon-download-alt")
+        
+        while (true) {
+            let npages = (await browser.pages()).length;
+            if (npages === 3) break;
+            await (new Promise(res => setTimeout(res, 400)))
+        } // to make sure page is opened !
+        
+        let newPage = await (await browser.pages())[2]
+        await newPage.close()
+        continue;
 
-    let i720p = await newPage.$eval("div.mirror_link", (ml) => {
-        let tags = ml.children;
-        for (let i = 0; i < tags.length; i++) {
-            if (tags[i].textContent.includes("360")) return i+1;
-        }
-    })
-    console.log("720p is %ith tag ;)", i720p)
+        console.log(newPage.url())
+        newPage.waitForNavigation({ waitUntil: "domcontentloaded", timeout: 0 })
+        await newPage.waitForSelector("div.dowload > a")
 
-    await page._client.send('Page.setDownloadBehavior', {   // Set Download Path;
-        behavior: 'allow',
-        downloadPath: __dirname 
-    });
+        let reqURL = await newPage.evaluate(q => {
+            let tags = document.querySelectorAll("div.dowload > a");
+            for (let a of tags) {
+                if (a.textContent.includes(q.toString())) return a.href
+            }
+        }, q)
+        console.log("%ip url :  %s)", q, reqURL)
 
-    await newPage.click(`div.mirror_link > div.dowload:nth-child(${i720p}) > a`);
-    await newPage.waitForTimeout(30000);
-    browser.close();
+        await page._client.send('Page.setDownloadBehavior', {   // Set Download Path;
+            behavior: 'allow',
+            downloadPath: j(__dirname, "anime", an)
+        });
+
+        // await newPage.click(`div.mirror_link > div.dowload:nth-child(${reqCn}) > a`);
+        await newPage.evaluate(url => (location.href = (url)), reqURL)
+        await (new Promise(res => setTimeout(res, (process.env.NODE_ENV === "production" ? 30000 : 2000))))
+        await newPage.close();
+    }
+    await (new Promise(res => setTimeout(res, 3000)))
+    browser.close()
 }
 
-dev();
+const closePages = pages => new Promise(async res => {
+    for (let page of pages) await page.close();
+    res(true);
+})
 
-function eval4dlnks() {
-    return new Function(`
-    var lnks = document.querySelectorAll("div.dowload > a")
-    var dlnks = []
-    lnks.forEach(lnk => {
-        var txt = lnk.textContent;
-        if(txt.endsWith("mp4)")) dlnks.push(lnk);
-    });
-    return dlnks.map( a => ({href : a.getAttribute("href"), txt : a.textContent}));
-`)
+module.exports = {
+    daz: start
 }
+
+let url = "https://animixplay.to/v1/mob-psycho-100";
+start(url, 360);
+
