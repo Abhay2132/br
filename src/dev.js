@@ -13,7 +13,7 @@ async function start(url, q) {
     await page.waitForSelector("#epslistplace > button")
     let epn = await page.$$eval("#epslistplace > button", btns => btns.length)
     await browser.close()
-
+log("Downloading '%s' anime", an)
     for (let i = 1; i <= epn; i++) {
         log("Downloading ep%i", i)
         await downloadEp(j(url, "ep" + i), q, an)
@@ -105,5 +105,6 @@ module.exports = {
 }
 
 let url = "https://animixplay.to/v1/mob-psycho-100";
+
 start(url, 360);
 
