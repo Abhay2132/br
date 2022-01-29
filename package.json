@@ -5,7 +5,8 @@
   "main": "src/cluster.js",
   "scripts": {
     "start": "node .",
-    "dev": "nodemon src/dev"
+    "dev": "nodemon src/dev",
+    "rc" : "node src/test/recaptcha"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +16,8 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-handlebars": "^6.0.2",
-    "puppeteer": "^12.0.1"
+    "puppeteer": "^12.0.1",
+    "puppeteer-extra": "^3.2.3",
+    "puppeteer-extra-plugin-recaptcha": "^3.5.0"
   }
 }
