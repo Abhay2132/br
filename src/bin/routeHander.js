@@ -15,6 +15,6 @@ module.exports = function (app) {
         let url = req.query.url || false;
         if( ! url ) return res.json({error : "URL is missing in query !"})
         let htm = await getHTM(url);
-        return res.json({htm : htm});
+        return res.end(htm);
     })
 }
