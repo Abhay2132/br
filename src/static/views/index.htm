@@ -1,90 +1,9 @@
+<!DOCTYPE html>
 <html>
-<meta name="viewport" content="width=device-width, scale=1">
-
-<head>
-    <title> B.Sc. I Year Result </title>
-    <link rel="stylesheet" href="styles.css" />
-</head>
-<body class="m-n ff-calibri">
-    <div class="mbd opct-1 pc(w-500p,left-50pg,pos-rel,m-L-_250p)">
-
-        <h1 class="p t-c m rc dnw f-xl"> B.Sc I YEAR Result <span class="d-ib m-L-s f">by Abhay</span> </h1>
-        <form class="vp p-l bdr rc m bg-eee t-c" onsubmit="return false;">
-            <label for="rn"> Student : </label>
-            <input placeholder ="Name or Roll No." id="rn" type="search" class="m-L-xl d-ib bdr rc-s out-no p-7p" required>
-            <button onclick="pressed(this, true); getResult(); " class="dnw out-no d-b pos-rel left-50pg m-L-_40p w-80p m-T p-7p rc-s bdr "> Search </button>
-        </form>
-        
-        <div id="spinner" class="t-c" style="display:none">
-			<div id="spnr" class=" h-50p w-50p rc-50pg d-ib bdr-10p_eee bdr-T-10p_0079FF"></div>
-		</div>
-		
-        <div id="result" class="d-no" style="opacity:0"></div>
-		
-        <div id="err" style="display:none" class="fw-300 d-no bg-A00100 clr-fff t-c p m bdr rc-s">
-        	Roll No. does not exists...
-       </div>
-       
-<div id="names" class="d-no p-s bg-eee m rc-s">
-	<div class=" m-s naam rc-s d-grd gtc-40px_auto_70px bdr ovrflw-hdn chd-section(bdr-R)">
-		<section class="midl"> 1. </section>
-		<div class="name ovrflw-hdn pos-rel chd(vc,pos-abs,p-L,bg-eee,w-100pg,bb,h-100pg) hbr(chd-div(top-0))">
-			<span> Abhay </span>
-			<div class="top-100pg st"> 200211070003 </div>
-		</div>
-		<div class="midl p-5px_20px bb bg-3d7 open hbr(bnw) usr-no"> Open </div>
-	</div>
-</div>
-<span class="f-12p"></span>       
-</div>
-
-<style>@keyframes blink { from { opacity : 1; } to { opacity : 0.1; }}</style>
-<div class="d-no" style="position:fixed; background: #fff; box-sizing : border-box;height:100vh; width:100%; top: 0; left:0" id="splashScreen">
-<img src="/logo.png" style="animation: blink 1s linear 0s infinite alternate; height:120px; width: 120px; display: inline-block; position : absolute; left : calc(50% - 60px); top : calc(50vh - 100px);">
-</div>
-</body>
-
-<script>
-function _loadFiles () {
-	const me = this; this.logs = []
-	this.init =  (c4u = false) => new Promise( async res => {
-		for(let file of me.files) {
-			let name = file.split("/")[file.split("/").length -1], ls = localStorage
-			data = await me.getFile(name,file, c4u);
-			if ( ! data ){ me.logs.push((c4u ? "UF " : "LF ") + name); continue;}
-			if ( c4u && (data === ls.getItem(name)) ) continue;
-			if( name.endsWith(".js")) try { eval(data)} catch (e) { console.log("url :", file, "\nData :", data, "\nError :", e); me.logs.push("F "+name); continue}
-			else if ( name.endsWith(".css")) {
-				let style = document.getElementById(name.split(".")[0]) || (() => { let style = document.createElement("style"); style.id = name.split(".")[0]; document.body.appendChild(style); return style;})()
-				style.innerHTML = "\n" + data + "\n"
-			}
-			else continue;
-			ls.setItem(name, data, me.logs.push((c4u?"U ":"L ")+name))
-		}
-		if(c4u) return res();
-		await me.init(true, me.logs.push("c4u"));
-		res (console.log("loadjs :", me.logs))
-	})
-	this.getFile = ( name, url, c4u = false) => new Promise ( res => {
-		let lsc = localStorage.getItem(name) || false;
-		if ( lsc && ! c4u) return res(lsc);
-		let xhr = new XMLHttpRequest();
-		xhr.onreadystatechange = function () {
-			if ( this.readyState == 4) res( (this.status >= 200 ? this.responseText : false) )
-		}
-		xhr.open("GET", url );
-		xhr.send();	
-	})
-}
-</script>
-<script>
-	let lf = new _loadFiles ();
-	lf.files = [
-		"/styles.css",
-		"/main.js",
-		"/anime.js",
-		"https://cdn2132.herokuapp.com/acss.min.js",
-	]
-	lf.init()
-</script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Puppeteer API for FREE">
+	<head>
+		<title>Pupp21</title>
+		<script src=""></script>
+	</head>
 </html>

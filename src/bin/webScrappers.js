@@ -1,7 +1,7 @@
 const pupp = require("puppeteer");
 
 const getHTM = url => new Promise( async res => {
-    const browser = await pupp.launch({ args: ['--no-sandbox'] })
+    const browser = await pupp.launch({ args: ['--no-sandbox'], headless : process.env.NODE_ENV })
     const page = await browser.newPage();
     await page.goto(url, {waitUntil : "domcontentloaded"})
     const htm = await page.content();
