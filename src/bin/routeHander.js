@@ -14,6 +14,7 @@ module.exports = function (app) {
     app.get("/getHTM", async (req, res) => {
         let url = req.query.url || false;
         if( ! url ) return res.json({error : "URL is missing in query !"})
+        url = url.startsWith("http") ? url : "https://"+url
         let htm = await getHTM(url);
         return res.end(htm);
     })
