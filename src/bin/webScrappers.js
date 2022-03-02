@@ -23,8 +23,8 @@ async function screenshot (url , fullPage = true) {
     if( ! fs.existsSync(path.join(__dirname, "/..", "static", "screenshots"))) fs.mkdirSync(path.join(__dirname, "/..", "static", "screenshots"))
     var name =  path.basename(u.parse(url).pathname)
     name = ! name.length ? "image"+Date.now() : name ;
-    const uri = path.join(__dirname, "/..", "static", "screenshots", name + ".jpg");
-    await page.screenshot({path : uri})
+    const uri = path.join(__dirname, "/..", "static", "screenshots", name + ".png");
+    await page.screenshot({path : uri, fullPage: fullPage})
     await browser.close();
     return uri
 }
