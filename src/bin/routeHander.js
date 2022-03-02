@@ -1,4 +1,4 @@
-const { getResult , getNames, getHTM} = require("./webScrappers"),
+const { getHTM, screenshot} = require("./webScrappers"),
     colors = require("colors")
 
 module.exports = function (app) {
@@ -17,5 +17,13 @@ module.exports = function (app) {
         url = url.startsWith("http") ? url : "https://"+url
         let htm = await getHTM(url);
         return res.end(htm);
+    })
+
+    app.get("/screenshot", async (req, res) => {
+        let {url = false, fp = true} = req.query
+        if (!url) return res.status(401).json({error: "url missing in query !"})
+        url = url.startsWith("http") ? url : "https://"+url
+        uri = await screenshot(url, fp)
+        res.download(uri)
     })
 }
