@@ -20,10 +20,10 @@ module.exports = function (app) {
     })
 
     app.get("/screenshot", async (req, res) => {
-        let {url = false, fp = true} = req.query
+        let {url = false, fp = true, scrolly = 99999, wait4 = 100} = req.query
         if (!url) return res.status(401).json({error: "url missing in query !"})
         url = url.startsWith("http") ? url : "https://"+url
-        uri = await screenshot(url, fp)
+        uri = await screenshot(url, fp, scrolly, wait4)
         res.download(uri)
     })
 }
