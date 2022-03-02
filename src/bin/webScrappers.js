@@ -23,14 +23,23 @@ const getHTM = (url) =>
 		return res(htm);
 	});
 
-async function screenshot(url, fullPage = true, scrolly = 999999, wait4 = 1) {
+async function screenshot(url, fullPage = false, scrolly = false, wait4 = 1) {
 	const browser = await pupp.launch(mode);
 	const page = await browser.newPage();
-	console.log(url);
+	// console.log(url);
 	await page.goto(url, { waitUntil: "networkidle2", timeout: 0 });
-	await page.evaluate((scrollY) => {
-        window.scrollTo(0, scrollY)
-    }, scrolly);
+	if (fullPage)
+		await page.evaluate((scrollY) => {
+			var tick,
+				sl = scrollY || document.body.scrollHeight
+				i = 1;
+			tick = setInterval(() => {
+				
+				if (i > sl) clearInterval(tick);
+				i += 100;
+				window.scrollTo(0, i);
+			}, 100);
+		}, scrolly);
 	await page.waitForTimeout(wait4);
 
 	if (!fs.existsSync(path.join(__dirname, "/..", "static", "screenshots")))
@@ -44,7 +53,8 @@ async function screenshot(url, fullPage = true, scrolly = 999999, wait4 = 1) {
 		"screenshots",
 		name + ".png"
 	);
-	await page.screenshot({ path: uri, fullPage: fullPage });
+	console.log({ path: uri, fullPage: !!fullPage , wait4 : wait4})
+	await page.screenshot({ path: uri, fullPage: !!fullPage });
 	await browser.close();
 	return uri;
 }
