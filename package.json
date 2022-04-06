@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/cluster.js",
   "scripts": {
-    "start": "node .",
+    "start": "node src/cluster",
     "dev": "nodemon src/dev",
     "rc": "node src/test/recaptcha"
   },
