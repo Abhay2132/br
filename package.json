@@ -1,30 +1,26 @@
 {
-  "name": "ws",
-  "version": "1.0.0",
-  "description": "",
-  "main": "src/cluster.js",
-  "scripts": {
-<<<<<<< HEAD
-    "start": "node .",
-    "test": "clear ; nodemon --ignore src/static src/dev",
-=======
-    "start": "node src/cluster",
-    "dev": "nodemon src/dev",
->>>>>>> 551a6f14f6159239f8d84ddb96f25b7c2bdfc629
-    "rc": "node src/test/recaptcha"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "adm-zip": "^0.5.9",
-    "colors": "^1.4.0",
-    "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "express-handlebars": "^6.0.2",
-    "puppeteer": "^12.0.1",
-    "puppeteer-extra": "^3.2.3",
-    "puppeteer-extra-plugin-recaptcha": "^3.5.0",
-    "puppeteer-extra-plugin-stealth": "^2.9.0"
-  }
+	"name": "ws",
+	"version": "1.0.0",
+	"description": "",
+	"main": "src/cluster.js",
+	"scripts": {
+		"test": "clear ; nodemon --ignore src/static src/dev",
+		"start": "node src/cluster",
+		"dev": "nodemon src/dev",
+		"rc": "node src/test/recaptcha"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"adm-zip": "^0.5.9",
+		"colors": "^1.4.0",
+		"cors": "^2.8.5",
+		"express": "^4.17.1",
+		"express-handlebars": "^6.0.2",
+		"puppeteer": "^12.0.1",
+		"puppeteer-extra": "^3.2.3",
+		"puppeteer-extra-plugin-recaptcha": "^3.5.0",
+		"puppeteer-extra-plugin-stealth": "^2.9.0"
+	}
 }
