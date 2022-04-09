@@ -118,7 +118,7 @@ function imgD(siteURL = false, ms = 10240) {
 			newPage.on("response", async (response) => {
 				const url = response.url();
 				if (response.request().resourceType() === "image") {
-					const fileName = url.split("/").pop();
+					const fileName = url.split("/").pop().split("?")[0];
 					let ext = extname(fileName);
 					if (!["jpg", "png", "gif"].includes(ext)) return;
 					const filePath = j(imgDdir, ddir, `${i++}. ${fileName}`);
