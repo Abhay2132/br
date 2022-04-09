@@ -17,9 +17,9 @@ function imgD(siteURL = false, ms = 10240) {
 	this.parseURL = function (url = false) {
 		if (!url) return false;
 		let purl = parse(url, 1);
-		let { hostname, pathname } = purl;
+		let { hostname, path } = purl;
 		hostname = hostname.replace(/[.]/g, "_");
-		let path = pathname.replace(/\//g, "_");
+		path = path.replace(/[^0-9a-zA-Z_]/g, "_")
 		let ddir = hostname + "_" + path;
 		while (ddir.includes("__")) ddir = ddir.replace("__", "_");
 		ddir = ddir.slice(0, 50);
