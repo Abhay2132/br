@@ -4,8 +4,13 @@
   "description": "",
   "main": "src/cluster.js",
   "scripts": {
+<<<<<<< HEAD
     "start": "node .",
     "test": "clear ; nodemon --ignore src/static src/dev",
+=======
+    "start": "node src/cluster",
+    "dev": "nodemon src/dev",
+>>>>>>> 551a6f14f6159239f8d84ddb96f25b7c2bdfc629
     "rc": "node src/test/recaptcha"
   },
   "keywords": [],
