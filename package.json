@@ -5,13 +5,14 @@
   "main": "src/cluster.js",
   "scripts": {
     "start": "node .",
-    "dev": "nodemon src/dev",
+    "test": "clear ; nodemon --ignore src/static src/dev",
     "rc": "node src/test/recaptcha"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "adm-zip": "^0.5.9",
     "colors": "^1.4.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",

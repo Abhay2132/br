@@ -1,25 +1,33 @@
 module.exports = () => {
-const exp = require("express"),
-    app = exp(),
-    rh = require("./routeHander"),
-    hbs = require("express-handlebars"),
-    cors = require("cors")
+	const exp = require("express"),
+		app = exp(),
+		router = require("./mods/router"),
+		hbs = require("express-handlebars"),
+		cors = require("cors"),
+		path = require("path");
 
-global.log = console.log;
-global.j = require("path").join;
-global.errLog = function (err){ if(err) log(err) }
+	global.isPro = process.env.NODE_ENV === "production";
+	global.log = console.log;
+	global.__port = process.env.PORT || 3000;
+	global.j = require("path").join;
+	global.errLog = (...a) => console.error(...a);
+	global.sdir = path.resolve("src", "static");
 
-app.engine('handlebars', hbs.engine());
-app.set('view engine', 'handlebars');
-app.set('views', j(__dirname, "static", "views"));
+	let engine = hbs.create({
+		defaultLayout: "main",
+		extname: "hbs",
+	}).engine;
+	app.engine("hbs", engine);
+	app.set("view engine", "hbs");
+	app.set("views", j(sdir, "views"));
 
-app.use(exp.static(j(__dirname, "static", "public")))
-app.use(cors())
-app.locals.port = process.env.PORT || 5000;
+	app.use(exp.static(j(sdir, "public")));
+	app.use(cors());
 
-rh(app)
-
-app.listen(app.locals.port, ()=> log("Server Started at port :", app.locals.port))
-
-}
-
+	app.use(exp.json());
+	app.use(router);
+	let fs = require("fs");
+	if (fs.existsSync(j(sdir, "files")))
+		fs.rmSync(j(sdir, "files"), { recursive: true });
+	app.listen(__port, () => log("Server Started at port :", __port));
+};
