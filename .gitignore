@@ -1,3 +1,4 @@
 src/static/screenshots
 node_modules
 src/bin/imgD
+src/static/files
